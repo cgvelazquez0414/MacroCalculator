@@ -1,0 +1,111 @@
+#using tkinter, a python library used to make GUI's
+import tkinter as tk
+
+#specifying value 0 to every variable I will use when the user inputs info to reduce bugs and errors
+protein_sum = 0
+calories_sum = 0
+carbs_sum = 0
+target_protein = 0
+target_calories = 0
+target_carbs = 0
+
+#creating function call set_targets() to retrive info from th euser
+def set_targets():
+    #global is used to declare three variables
+    #get() is used to save the info folloed by turning into a float and calling the action a variable
+    global target_protein, target_calories, target_carbs
+    target_protein = float(target_protein_entry.get())
+    target_calories = float(target_calories_entry.get())
+    target_carbs = float(target_carbs_entry.get())
+    target_window.destroy()  
+    display_numbers()  
+
+#creating a function to display nubers inputted
+def display_numbers():
+    protein = float(entry_protein.get())
+    calories = float(entry_calories.get())
+    carbs = float(entry_carbs.get())
+    
+    #global used to define changed in the floats inputted
+    global protein_sum, calories_sum, carbs_sum
+    protein_sum += protein
+    calories_sum += calories
+    carbs_sum += carbs
+    
+    difference_protein = target_protein - protein_sum
+    difference_calories = target_calories - calories_sum
+    difference_carbs = target_carbs - carbs_sum
+    
+    #.config is used to create buttons for each of the variables created from earlier
+    result_label.config(text=f"You entered the following numbers:\nProtein: {protein}\nCalories: {calories}\nCarbs: {carbs}\n\n"
+                            f"Total Protein: {protein_sum}\nTotal Calories: {calories_sum}\nTotal Carbs: {carbs_sum}\n\n"
+                            f"Needed to Hit Target:\nProtein: {difference_protein}\nCalories: {difference_calories}\nCarbs: {difference_carbs}\n\n"
+                            f"Target Protein: {target_protein}\nTarget Calories: {target_calories}\nTarget Carbs: {target_carbs}")
+
+#tl.Tk() is used to make the main window
+root = tk.Tk()
+#root.tile used to make a title
+root.title("Macros")  
+#.configure used to make the background white
+root.configure(bg="white")  
+
+#tk.entry is used to make a widget for the customer.. three are implemented to grab 3 inputs from the user
+entry_protein = tk.Entry(root, width=10, bg="white", fg="black")  
+entry_calories = tk.Entry(root, width=10, bg="white", fg="black")
+entry_carbs = tk.Entry(root, width=10, bg="white", fg="black")
+
+#tk.label used to provide labels for the user to input informaiton in the right place
+entry_protein_label = tk.Label(root, text="Protein:", bg="white", fg="black")  
+entry_calories_label = tk.Label(root, text="Calories:", bg="white", fg="black")
+entry_carbs_label = tk.Label(root, text="Carbs:", bg="white", fg="black")
+
+#.pack() is ued to organize and display wedgets in the GUI
+entry_protein_label.pack()
+entry_protein.pack()
+entry_calories_label.pack()
+entry_calories.pack()
+entry_carbs_label.pack()
+entry_carbs.pack()
+
+# tk.button is used to display a button to the GUI
+#important to type 'root' to to make the connection betwwen the instruction and main application window 
+display_button = tk.Button(root, text="Add and Display Numbers", command=display_numbers, bg="white", fg="black") 
+display_button.pack()
+
+
+#tk.label is used to create a label for the results inputted from the user
+result_label = tk.Label(root, text="", bg="white", fg="black")
+result_label.pack()
+
+#tk.toplevel is used as the first gui the user will see and be able to input their info
+target_window = tk.Toplevel(root)
+target_window.title("Set Targets")
+target_window.title("Please Input Your Macro Goals")
+target_window.configure(bg="white")  
+
+#tk.label is used the same as above, but this block will be used for the initial gui
+target_protein_label = tk.Label(target_window, text="Target Protein:", bg="white", fg="black") 
+target_calories_label = tk.Label(target_window, text="Target Calories:", bg="white", fg="black")
+target_carbs_label = tk.Label(target_window, text="Target Carbs:", bg="white", fg="black")
+
+
+#tk.entry is used so the user may input information
+target_protein_entry = tk.Entry(target_window, width=10, bg="white", fg="black") 
+target_calories_entry = tk.Entry(target_window, width=10, bg="white", fg="black")
+target_carbs_entry = tk.Entry(target_window, width=10, bg="white", fg="black")
+
+
+#.pack is used to display infroamtion in the gui
+target_protein_label.pack()
+target_protein_entry.pack()
+target_calories_label.pack()
+target_calories_entry.pack()
+target_carbs_label.pack()
+target_carbs_entry.pack()
+
+#tk.button is used to in initial gui to submit info input from the user
+set_targets_button = tk.Button(target_window, text="Set Targets", command=set_targets, bg="white", fg="black")  
+set_targets_button.pack()
+
+#method used to start the main event loop
+root.mainloop()
